@@ -1,7 +1,9 @@
 NAME = libft.a
 
-CC = gcc -Wall -Wextra -Werror
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
 
+SRCPATH = src/
 SRC = ft_atoi.c \
 	ft_bzero.c \
 	ft_calloc.c \
@@ -47,13 +49,11 @@ SRC = ft_atoi.c \
 	ft_lstmap_bonus.c \
 	ft_printf.c\
 	ft_putchar.c \
-	ft_putstr.c \
-	ft_putnbr.c \
 	ft_putnbr_hexa.c \
 	ft_putnbr_unsignedint.c \
+	ft_putnbr.c \
 	ft_putpointer.c \
-	get_next_line.c \
-	get_next_line_utils.c \
+	ft_putstr.c \
 	get_next_line_bonus.c \
 	get_next_line_utils_bonus.c
 
@@ -61,18 +61,29 @@ OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
+$(NAME): $(OBJ)
+	echo "\033[36mMaking Libft\033[0m"
 	ar rc $(NAME) $^
+	echo "\033[32mDone\033[0m"
 
-%.o : %.c
-	$(CC) -c $^
+%.o : $(SRCPATH)%.c
+	$(CC) $(CFLAGS) -c $^ -g
+
+bonus : all
 
 clean :
-	rm -f $(OBJ) $(BONUS_OBJ)
+	echo "\033[35mCleaning libft's objects ...\033[0m"
+	rm -f $(OBJ)
+	echo "\033[32mDone\033[0m"
 
-fclean : clean
+fclean :
+	make clean
+	echo "\033[35mCleaning libft ...\033[0m"
 	rm -f $(NAME)
+	echo "\033[32mDone\033[0m"
 
-re : fclean all
+re : fclean
+	make all
 
-.PHONY : all bonus clean fclean re
+.PHONY : all clean fclean re bonus
+.SILENT :
